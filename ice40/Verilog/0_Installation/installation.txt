@@ -1,0 +1,103 @@
+--------------------
+copy .rules in /etc/udev/rules.d/
+
+
+--------------------
+WORKING:
+From Youtube video:
+Installing Yosys (Verilog and with Plugin VHDL synthesis)
+Installing the IceStorm Tools (icepack, icebox, iceprog, icetime, chip databases)
+Installing NextPNR (place&route tool, Arachne-PNR replacement)
+Installing iverilog (Verilog analysis)
+
+git clone https://github.com/YosysHQ/yosys.git ~/yosys
+sudo apt install -y build-essential bison flex libreadline-dev \
+                    gawk tcl-dev libffi-dev graphviz xdot pkg-config \
+                    libboost-all-dev zlib1g-dev
+make -C ~/yosys -j$(nproc)
+sudo make -C ~/yosys install
+
+git clone https://github.com/YosysHQ/icestorm.git ~/icestorm
+sudo apt install -y libftdi-dev
+make -C ~/icestorm -j$(nproc)
+sudo make -C ~/icestorm install
+
+git clone https://github.com/YosysHQ/nextpnr.git ~/nextpnr
+sudo apt install -y clang-format libeigen3-dev qtbase5-dev qt5-qmake
+cmake -S ~/nextpnr -B ~/nextpnr -DARCH=ice40 -DBUILD_GUI=ON
+make -C ~/nextpnr -j$(nproc)
+sudo make -C ~/nextpnr install
+
+sudo apt install -y libhidapi-dev libusb-1.0-0-dev
+git clone https://github.com/wuxx/icesugar.git ~/icesugar
+echo "export PATH=$PATH:/home/${USER}/icesugar/tools" >> /home/${USER}/.bashrc
+source /home/${USER}/.bashrc
+
+git clone https://github.com/steveicarus/iverilog.git ~/iverilog
+sudo apt install -y gperf
+cd iverilog
+sh autoconf.sh
+./configure
+make -C ~/iverilog
+sudo make -C ~/iverilog install
+
+
+
+-------------------
+NOT USED:
+From Website:
+
+
+
+git clone https://github.com/YosysHQ/yosys.git yosys
+cd yosys
+make -j$(nproc)
+sudo make install
+
+
+
+
+git clone https://github.com/YosysHQ/icestorm.git icestorm
+cd icestorm
+make -j$(nproc)
+sudo make install
+
+
+
+
+git clone https://github.com/cseed/arachne-pnr.git arachne-pnr
+cd arachne-pnr
+make -j$(nproc)
+sudo make install
+
+
+
+
+git clone https://github.com/YosysHQ/nextpnr nextpnr
+cd nextpnr
+cmake -DARCH=ice40 -DCMAKE_INSTALL_PREFIX=/usr/local .
+make -j$(nproc)
+sudo make install
+
+
+
+-----------------
+Example workflow:
+
+yosys -p "synth_ice40 -blif rot.blif" rot.v
+arachne-pnr -d 1k -p rot.pcf rot.blif -o rot.asc
+icepack rot.asc rot.bin
+iceprog rot.bin
+
+timing analysis with icetime:
+
+icetime -tmd hx1k rot.asc
+
+
+
+
+
+
+
+
+

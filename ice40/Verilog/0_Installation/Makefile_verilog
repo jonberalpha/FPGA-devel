@@ -1,0 +1,66 @@
+
+Skip to content
+Pull requests
+Issues
+Marketplace
+Explore
+@jonberalpha
+nesl /
+ice40_examples
+Public
+
+Code
+Issues 2
+Pull requests 5
+Actions
+Projects
+Security
+
+    Insights
+
+ice40_examples/uart_transmission/Makefile
+@msrivastava
+msrivastava Updated Makefile
+Latest commit a4e9ddd on Apr 24, 2020
+History
+3 contributors
+@pdmart
+@smoe
+@msrivastava
+34 lines (28 sloc) 746 Bytes
+# Project setup
+PROJ      = uart
+BUILD     = ./build
+#DEVICE    = 1k
+DEVICE    = 8k
+ifeq (8k,$(DEVICE))
+FOOTPRINT = ct256
+else
+FOOTPRINT = tq144
+endif
+
+# Files
+FILES = top.v
+FILES += uart_trx.v
+
+.PHONY: all clean burn
+
+all:$(BUILD)/$(PROJ).bin
+
+$(BUILD)/$(PROJ).bin: $(FILES) Makefile
+	# if build folder doesn't exist, create it
+	mkdir -p $(BUILD)
+	# synthesize using Yosys
+	yosys -p "synth_ice40 -top top -blif $(BUILD)/$(PROJ).blif" $(FILES)
+	# Place and route using arachne
+	arachne-pnr -d $(DEVICE) -P $(FOOTPRINT) -o $(BUILD)/$(PROJ).asc -p pinmap_$(FOOTPRINT).pcf $(BUILD)/$(PROJ).blif
+	# Convert to bitstream using IcePack
+	icepack $(BUILD)/$(PROJ).asc $(BUILD)/$(PROJ).bin
+
+burn:   $(BUILD)/$(PROJ).bin
+	iceprog $<
+
+clean:
+	rm -f build/*
+
+

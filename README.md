@@ -1,8 +1,7 @@
-# VHDL-devel
-A collection of useful VHDL-modules and -projects
+# FPGA-devel
 
-Projects tested on Basys 2/3 Board
+A collection of VHDL modules and complete FPGA projects targeting a variety of boards and toolchains. Includes designs for the Basys 2 and Basys 3 as well as open-source boards like the iCESugar Nano, iCEBreaker, and ULX3S.
 
-Used programs: *MODELSIM, ISE Design Suite (for Basys 2 Board) and Vivado (for Basys 3)*
+**Toolchains:** ModelSim, ISE Design Suite (Basys 2), Vivado (Basys 3), and open-source flows using GHDL, Yosys, and nextpnr for iCE40 and ECP5 targets.
 
-Still the majority of comments are in german that will be changed in the future
+> *Note: Some comments are still in German — this will be updated over time.*
