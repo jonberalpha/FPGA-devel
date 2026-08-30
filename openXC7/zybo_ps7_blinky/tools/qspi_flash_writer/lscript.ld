@@ -1,0 +1,287 @@
+/******************************************************************************
+* Copyright (C) 2012 - 2020 Xilinx, Inc.  All rights reserved.
+* Copyright (c) 2022 - 2023, Advanced Micro Devices, Inc. All Rights Reserved.
+* SPDX-License-Identifier: MIT
+******************************************************************************/
+
+/* Trimmed well below the template's defaults (0x2000/0x2000/1024/2048/
+ * 1024/1024/1024 = ~22KB total): this app is a single-threaded polling
+ * loop with no recursion and no interrupts enabled, so it doesn't need
+ * anywhere near that much. Freed-up space matters here: this app links
+ * the SD and QSPI drivers simultaneously, which barely fits ps7_ram_1's
+ * ~63.5KB below even after this and other trimming (see xparameters.h
+ * and sw/build-qspi-flash-writer.sh). */
+_STACK_SIZE = DEFINED(_STACK_SIZE) ? _STACK_SIZE : 0x400;
+_HEAP_SIZE = DEFINED(_HEAP_SIZE) ? _HEAP_SIZE : 0x200;
+
+_ABORT_STACK_SIZE = DEFINED(_ABORT_STACK_SIZE) ? _ABORT_STACK_SIZE : 128;
+_SUPERVISOR_STACK_SIZE = DEFINED(_SUPERVISOR_STACK_SIZE) ? _SUPERVISOR_STACK_SIZE : 128;
+_IRQ_STACK_SIZE = DEFINED(_IRQ_STACK_SIZE) ? _IRQ_STACK_SIZE : 128;
+_FIQ_STACK_SIZE = DEFINED(_FIQ_STACK_SIZE) ? _FIQ_STACK_SIZE : 128;
+_UNDEF_STACK_SIZE = DEFINED(_UNDEF_STACK_SIZE) ? _UNDEF_STACK_SIZE : 128;
+
+/* Define Memories in the system */
+
+MEMORY
+{
+   ps7_qspi_linear_0 : ORIGIN = 0xFC000000, LENGTH = 0x1000000
+   ps7_ram_0 : ORIGIN = 0x0, LENGTH = 0x30000
+   ps7_ram_1 : ORIGIN = 0xFFFF0000, LENGTH = 0xFE00
+}
+
+/* Specify the default entry point to the program */
+
+ENTRY(_vector_table)
+
+
+SECTIONS
+{
+.text : {
+   KEEP (*(.vectors))
+   *(.boot)
+   *(.text)
+   *(.text.*)
+   *(.gnu.linkonce.t.*)
+   *(.plt)
+   *(.gnu_warning)
+   *(.gcc_execpt_table)
+   *(.glue_7)
+   *(.glue_7t)
+   *(.vfp11_veneer)
+   *(.ARM.extab)
+   *(.gnu.linkonce.armextab.*)
+} > ps7_ram_1
+
+.init : {
+   KEEP (*(.init))
+} > ps7_ram_1
+
+.fini : {
+   KEEP (*(.fini))
+} > ps7_ram_1
+
+.rodata : {
+   __rodata_start = .;
+   *(.rodata)
+   *(.rodata.*)
+   *(.gnu.linkonce.r.*)
+   __rodata_end = .;
+} > ps7_ram_1
+
+.rodata1 : {
+   __rodata1_start = .;
+   *(.rodata1)
+   *(.rodata1.*)
+   __rodata1_end = .;
+} > ps7_ram_1
+
+.sdata2 : {
+   __sdata2_start = .;
+   *(.sdata2)
+   *(.sdata2.*)
+   *(.gnu.linkonce.s2.*)
+   __sdata2_end = .;
+} > ps7_ram_1
+
+.sbss2 : {
+   __sbss2_start = .;
+   *(.sbss2)
+   *(.sbss2.*)
+   *(.gnu.linkonce.sb2.*)
+   __sbss2_end = .;
+} > ps7_ram_1
+
+.data : {
+   __data_start = .;
+   *(.data)
+   *(.data.*)
+   *(.gnu.linkonce.d.*)
+   *(.jcr)
+   *(.got)
+   *(.got.plt)
+   __data_end = .;
+} > ps7_ram_1
+
+.data1 : {
+   __data1_start = .;
+   *(.data1)
+   *(.data1.*)
+   __data1_end = .;
+} > ps7_ram_1
+
+.got : {
+   *(.got)
+} > ps7_ram_1
+
+.ctors : {
+   __CTOR_LIST__ = .;
+   ___CTORS_LIST___ = .;
+   KEEP (*crtbegin.o(.ctors))
+   KEEP (*(EXCLUDE_FILE(*crtend.o) .ctors))
+   KEEP (*(SORT(.ctors.*)))
+   KEEP (*(.ctors))
+   __CTOR_END__ = .;
+   ___CTORS_END___ = .;
+} > ps7_ram_1
+
+.dtors : {
+   __DTOR_LIST__ = .;
+   ___DTORS_LIST___ = .;
+   KEEP (*crtbegin.o(.dtors))
+   KEEP (*(EXCLUDE_FILE(*crtend.o) .dtors))
+   KEEP (*(SORT(.dtors.*)))
+   KEEP (*(.dtors))
+   __DTOR_END__ = .;
+   ___DTORS_END___ = .;
+} > ps7_ram_1
+
+.fixup : {
+   __fixup_start = .;
+   *(.fixup)
+   __fixup_end = .;
+} > ps7_ram_1
+
+.eh_frame : {
+   *(.eh_frame)
+} > ps7_ram_1
+
+.eh_framehdr : {
+   __eh_framehdr_start = .;
+   *(.eh_framehdr)
+   __eh_framehdr_end = .;
+} > ps7_ram_1
+
+.gcc_except_table : {
+   *(.gcc_except_table)
+} > ps7_ram_1
+
+.mmu_tbl (ALIGN(16384)) : {
+   __mmu_tbl_start = .;
+   *(.mmu_tbl)
+   __mmu_tbl_end = .;
+} > ps7_ram_1
+
+.ARM.exidx : {
+   __exidx_start = .;
+   *(.ARM.exidx*)
+   *(.gnu.linkonce.armexidix.*.*)
+   __exidx_end = .;
+} > ps7_ram_1
+
+.preinit_array : {
+   __preinit_array_start = .;
+   KEEP (*(SORT(.preinit_array.*)))
+   KEEP (*(.preinit_array))
+   __preinit_array_end = .;
+} > ps7_ram_1
+
+.init_array : {
+   __init_array_start = .;
+   KEEP (*(SORT(.init_array.*)))
+   KEEP (*(.init_array))
+   __init_array_end = .;
+} > ps7_ram_1
+
+.fini_array : {
+   __fini_array_start = .;
+   KEEP (*(SORT(.fini_array.*)))
+   KEEP (*(.fini_array))
+   __fini_array_end = .;
+} > ps7_ram_1
+
+.ARM.attributes : {
+   __ARM.attributes_start = .;
+   *(.ARM.attributes)
+   __ARM.attributes_end = .;
+} > ps7_ram_1
+
+.sdata : {
+   __sdata_start = .;
+   *(.sdata)
+   *(.sdata.*)
+   *(.gnu.linkonce.s.*)
+   __sdata_end = .;
+} > ps7_ram_1
+
+.sbss (NOLOAD) : {
+   __sbss_start = .;
+   *(.sbss)
+   *(.sbss.*)
+   *(.gnu.linkonce.sb.*)
+   __sbss_end = .;
+} > ps7_ram_1
+
+.tdata : {
+   __tdata_start = .;
+   *(.tdata)
+   *(.tdata.*)
+   *(.gnu.linkonce.td.*)
+   __tdata_end = .;
+} > ps7_ram_1
+
+.tbss : {
+   __tbss_start = .;
+   *(.tbss)
+   *(.tbss.*)
+   *(.gnu.linkonce.tb.*)
+   __tbss_end = .;
+} > ps7_ram_1
+
+.bss (NOLOAD) : {
+   __bss_start = .;
+   *(.bss)
+   *(.bss.*)
+   *(.gnu.linkonce.b.*)
+   *(COMMON)
+   __bss_end = .;
+} > ps7_ram_1
+
+_SDA_BASE_ = __sdata_start + ((__sbss_end - __sdata_start) / 2 );
+
+_SDA2_BASE_ = __sdata2_start + ((__sbss2_end - __sdata2_start) / 2 );
+
+/* Generate Stack and Heap definitions */
+
+.heap (NOLOAD) : {
+   . = ALIGN(16);
+   _heap = .;
+   HeapBase = .;
+   _heap_start = .;
+   . += _HEAP_SIZE;
+   _heap_end = .;
+   HeapLimit = .;
+} > ps7_ram_1
+
+.stack (NOLOAD) : {
+   . = ALIGN(16);
+   _stack_end = .;
+   . += _STACK_SIZE;
+   . = ALIGN(16);
+   _stack = .;
+   __stack = _stack;
+   . = ALIGN(16);
+   _irq_stack_end = .;
+   . += _IRQ_STACK_SIZE;
+   . = ALIGN(16);
+   __irq_stack = .;
+   _supervisor_stack_end = .;
+   . += _SUPERVISOR_STACK_SIZE;
+   . = ALIGN(16);
+   __supervisor_stack = .;
+   _abort_stack_end = .;
+   . += _ABORT_STACK_SIZE;
+   . = ALIGN(16);
+   __abort_stack = .;
+   _fiq_stack_end = .;
+   . += _FIQ_STACK_SIZE;
+   . = ALIGN(16);
+   __fiq_stack = .;
+   _undef_stack_end = .;
+   . += _UNDEF_STACK_SIZE;
+   . = ALIGN(16);
+   __undef_stack = .;
+} > ps7_ram_1
+
+_end = .;
+}
+

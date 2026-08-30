@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(lsb_release -a)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(curl -s \"https://api.github.com/repos/regymm/embeddedsw/contents/lib/sw_apps/zynq_fsbl/misc\")",
+      "Read(//tmp/**)",
+      "Bash(cp /tmp/zc702-ref/ps7_init.h /tmp/ps7_init.h)",
+      "Bash(gcc -fsyntax-only -w -I/tmp /tmp/syntax_check_body.c)",
+      "Bash(echo \"exit: $?\")",
+      "Bash(curl -s \"https://api.github.com/repos/regymm/embeddedsw/contents/lib/sw_apps/hello_world/src\")",
+      "Bash(curl -s \"https://api.github.com/repos/regymm/embeddedsw/contents/lib/sw_apps/hello_world\")",
+      "Bash(curl -s \"https://api.github.com/repos/regymm/embeddedsw/contents/lib/sw_apps/zynq_fsbl/src\")",
+      "Bash(curl -s \"https://api.github.com/repos/regymm/embeddedsw\")",
+      "Bash(curl -s \"https://api.github.com/repos/regymm/embeddedsw/commits?per_page=3\")",
+      "Bash(curl -s \"https://api.github.com/repos/regymm/embeddedsw/commits/zynq_noddr\")",
+      "Bash(curl -s \"https://api.github.com/repos/regymm/GenZ/commits/master\")",
+      "Bash(curl -s \"https://api.github.com/repos/antmicro/zynq-mkbootimage/commits/master\")",
+      "Bash(chmod +x *)",
+      "Bash(curl -sL \"https://raw.githubusercontent.com/regymm/embeddedsw/zynq_noddr/XilinxProcessorIPLib/drivers/qspips/examples/xqspips_flash_polled_example.c\" -o /tmp/xqspips_flash_polled_example.c)",
+      "Bash(cd *)"
+    ]
+  }
+}

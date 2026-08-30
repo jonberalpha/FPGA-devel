@@ -1,0 +1,34 @@
+set_property LOC W5 [get_ports clk]
+set_property IOSTANDARD LVCMOS33 [get_ports {clk}]
+
+set_property LOC U16 [get_ports led]
+set_property IOSTANDARD LVCMOS33 [get_ports {led}]
+
+# 7-segment display: held disabled in hdl/ so it doesn't glow faintly
+# when undriven.
+set_property LOC U2 [get_ports an[0]]
+set_property LOC U4 [get_ports an[1]]
+set_property LOC V4 [get_ports an[2]]
+set_property LOC W4 [get_ports an[3]]
+set_property IOSTANDARD LVCMOS33 [get_ports {an[0]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {an[1]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {an[2]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {an[3]}]
+
+set_property LOC W7 [get_ports seg[0]]
+set_property LOC W6 [get_ports seg[1]]
+set_property LOC U8 [get_ports seg[2]]
+set_property LOC V8 [get_ports seg[3]]
+set_property LOC U5 [get_ports seg[4]]
+set_property LOC V5 [get_ports seg[5]]
+set_property LOC U7 [get_ports seg[6]]
+set_property IOSTANDARD LVCMOS33 [get_ports {seg[0]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {seg[1]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {seg[2]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {seg[3]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {seg[4]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {seg[5]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {seg[6]}]
+
+set_property LOC V7 [get_ports dp]
+set_property IOSTANDARD LVCMOS33 [get_ports {dp}]
