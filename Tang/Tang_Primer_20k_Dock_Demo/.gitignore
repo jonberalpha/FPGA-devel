@@ -1,0 +1,26 @@
+# Build-Artefakte
+build/
+*.fs
+*.bit
+*.json
+*.o
+*.cf
+*.vcd
+*.vvp
+*.ghw
+*.log
+*.mif
+*.hex
+*.coe
+*.rom
+.vscode/
+__pycache__/
+*.pyc
+
+# Simulationsausgaben (werden von tb/ erzeugt)
+sim/*.ppm
+
+# Generierte Daten: werden von tools/*.py per make neu erzeugt
+hdl/sine_lut.v
+hdl/screen_fields.vh
+hdl/http_page.vh

@@ -1,0 +1,25 @@
+# Build-Artefakte
+build/
+*.fs
+*.bit
+*.json
+*.o
+*.cf
+*.vcd
+*.vvp
+*.ghw
+*.log
+*.mif
+*.hex
+*.ihx
+*.lk
+*.lst
+*.map
+*.mem
+*.rel
+*.rst
+*.sym
+*.asm
+*.coe
+*.rom
+.vscode/

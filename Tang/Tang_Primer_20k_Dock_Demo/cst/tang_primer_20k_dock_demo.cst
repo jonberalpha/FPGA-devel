@@ -1,0 +1,89 @@
+// Tang Primer 20K Dock (GW2A-LV18PG256C8/I7) - peripheral demo, stage 1+2
+// Pins: Sipeed TangPrimer-20K-example README, litex-boards, and measured with the pin scanner (DIP).
+
+IO_LOC "clk27" H11;
+IO_PORT "clk27" IO_TYPE=LVCMOS33 PULL_MODE=NONE;
+
+// Keys (active low): S0 reset, S1..S3 functions
+IO_LOC "rst_btn_n" T10;
+IO_PORT "rst_btn_n" IO_TYPE=LVCMOS33 PULL_MODE=UP;
+IO_LOC "s1_n" T3;
+IO_PORT "s1_n" IO_TYPE=LVCMOS33 PULL_MODE=UP;
+IO_LOC "s2_n" T2;
+IO_PORT "s2_n" IO_TYPE=LVCMOS33 PULL_MODE=UP;
+IO_LOC "s3_n" D7;
+IO_PORT "s3_n" IO_TYPE=LVCMOS33 PULL_MODE=UP;
+
+// DIP switches 2..5 (switch 1 is the core board enable), high = up
+IO_LOC "dip[0]" E9;
+IO_LOC "dip[1]" E8;
+IO_LOC "dip[2]" T4;
+IO_LOC "dip[3]" T5;
+IO_PORT "dip[0]" IO_TYPE=LVCMOS33 PULL_MODE=DOWN;
+IO_PORT "dip[1]" IO_TYPE=LVCMOS33 PULL_MODE=DOWN;
+IO_PORT "dip[2]" IO_TYPE=LVCMOS33 PULL_MODE=DOWN;
+IO_PORT "dip[3]" IO_TYPE=LVCMOS33 PULL_MODE=DOWN;
+
+// LEDs, active low: led_n[0] = LED5 (L16), [1] = LED4 (L14), [2] = LED3 (N14)
+IO_LOC "led_n[0]" L16;
+IO_LOC "led_n[1]" L14;
+IO_LOC "led_n[2]" N14;
+IO_PORT "led_n[0]" IO_TYPE=LVCMOS33 DRIVE=8;
+IO_PORT "led_n[1]" IO_TYPE=LVCMOS33 DRIVE=8;
+IO_PORT "led_n[2]" IO_TYPE=LVCMOS33 DRIVE=8;
+
+// UART via the on-board BL702 (USB-C "JTAG/UART")
+IO_LOC "uart_tx" M11;
+IO_PORT "uart_tx" IO_TYPE=LVCMOS33 DRIVE=8;
+IO_LOC "uart_rx" T13;
+IO_PORT "uart_rx" IO_TYPE=LVCMOS33 PULL_MODE=UP;
+
+// HDMI / DVI
+IO_LOC "tmds_clk_p" G16;
+IO_LOC "tmds_clk_n" H15;
+IO_LOC "tmds_d_p[0]" H14;
+IO_LOC "tmds_d_n[0]" H16;
+IO_LOC "tmds_d_p[1]" J15;
+IO_LOC "tmds_d_n[1]" K16;
+IO_LOC "tmds_d_p[2]" K14;
+IO_LOC "tmds_d_n[2]" K15;
+IO_PORT "tmds_clk_p" IO_TYPE=LVCMOS33 PULL_MODE=NONE DRIVE=8;
+IO_PORT "tmds_clk_n" IO_TYPE=LVCMOS33 PULL_MODE=NONE DRIVE=8;
+IO_PORT "tmds_d_p[0]" IO_TYPE=LVCMOS33 PULL_MODE=NONE DRIVE=8;
+IO_PORT "tmds_d_n[0]" IO_TYPE=LVCMOS33 PULL_MODE=NONE DRIVE=8;
+IO_PORT "tmds_d_p[1]" IO_TYPE=LVCMOS33 PULL_MODE=NONE DRIVE=8;
+IO_PORT "tmds_d_n[1]" IO_TYPE=LVCMOS33 PULL_MODE=NONE DRIVE=8;
+IO_PORT "tmds_d_p[2]" IO_TYPE=LVCMOS33 PULL_MODE=NONE DRIVE=8;
+IO_PORT "tmds_d_n[2]" IO_TYPE=LVCMOS33 PULL_MODE=NONE DRIVE=8;
+
+// Audio DAC PT8211 + amplifier
+IO_LOC "pa_en" R16;
+IO_LOC "hp_bck" N15;
+IO_LOC "hp_ws" P16;
+IO_LOC "hp_din" P15;
+IO_PORT "pa_en" IO_TYPE=LVCMOS33 DRIVE=8;
+IO_PORT "hp_bck" IO_TYPE=LVCMOS33 DRIVE=8;
+IO_PORT "hp_ws" IO_TYPE=LVCMOS33 DRIVE=8;
+IO_PORT "hp_din" IO_TYPE=LVCMOS33 DRIVE=8;
+
+// Ethernet PHY RTL8201F (RMII)
+IO_LOC "eth_ref_clk" A9;
+IO_LOC "eth_rst_n" F10;
+IO_LOC "eth_txd[0]" D16;
+IO_LOC "eth_txd[1]" E14;
+IO_LOC "eth_txen" E16;
+IO_LOC "eth_rxd[0]" F15;
+IO_LOC "eth_rxd[1]" C9;
+IO_LOC "eth_crs_dv" M6;
+IO_PORT "eth_ref_clk" IO_TYPE=LVCMOS33 PULL_MODE=NONE;
+IO_PORT "eth_rst_n" IO_TYPE=LVCMOS33 DRIVE=8;
+IO_PORT "eth_txd[0]" IO_TYPE=LVCMOS33 DRIVE=8;
+IO_PORT "eth_txd[1]" IO_TYPE=LVCMOS33 DRIVE=8;
+IO_PORT "eth_txen" IO_TYPE=LVCMOS33 DRIVE=8;
+IO_PORT "eth_rxd[0]" IO_TYPE=LVCMOS33 PULL_MODE=NONE;
+IO_PORT "eth_rxd[1]" IO_TYPE=LVCMOS33 PULL_MODE=NONE;
+IO_PORT "eth_crs_dv" IO_TYPE=LVCMOS33 PULL_MODE=NONE;
+IO_LOC "eth_mdc" F14;
+IO_LOC "eth_mdio" F16;
+IO_PORT "eth_mdc" IO_TYPE=LVCMOS33 DRIVE=8;
+IO_PORT "eth_mdio" IO_TYPE=LVCMOS33 PULL_MODE=UP DRIVE=8;
